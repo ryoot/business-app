@@ -1,24 +1,65 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+| Column          | Type    | Options     |
+| --------------- | ------- | ----------- |
+| nickname        | string  | null: false |
+| email           | string  | null: false |
+| password        | string  | null: false |
+| first-name      | string  | null: false |
+| family-name     | string  | null: false |
+| first-name-kana | string  | null: false |
+| family-name-kana| string  | null: false |
+| gender          | string  | null: false |
+| birthday        | date    | null: false |
 
-* Ruby version
+### Association
+- has_many :chat-room
+- has_many :items
 
-* System dependencies
+## items テーブル
 
-* Configuration
+| Column           | Type       | Options                        |
+| ---------------- | ---------- | ------------------------------ |
+| name             | string     | null: false                    |
+| image            | string     | null: false                    |
+| text             | string     | null: false                    |
 
-* Database creation
 
-* Database initialization
+### Association
 
-* How to run the test suite
+- belongs_to :user
 
-* Services (job queues, cache servers, search engines, etc.)
+## chat-rooms テーブル
 
-* Deployment instructions
+| Column | Type       | Options                        |
+| ------ | ---------- | ------------------------------ |
+| user   | references | null: false, foreign_key: true |
 
-* ...
+### Association
+
+- belongs_to :user
+
+##  chat-room-usersテーブル
+
+| Column            | Type       | Options                        |
+| ----------------- | ---------- | ------------------------------ |
+| user_id           | references | null: false, foreign_key: true |
+| chat-room_id      | references | null: false, foreign_key: true |
+
+### Association
+
+- has_many :messages
+- belongs_to :user
+- belongs_to :chat-room
+
+## chat-message テーブル
+| Column         | Type           | Options                        |
+| ------------- -| -------------- | ------------------------------ |
+| user_id        | references     | null: false                    |
+| chat-room_id   | string         | null: false                    |
+| message        | string         | null: false                    |
+
+### Association
+- belongs_to :chat-room
